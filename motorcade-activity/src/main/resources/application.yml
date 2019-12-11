@@ -1,0 +1,70 @@
+server:
+  port: 8085
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: dev
+  session:
+    store-type: none
+  devtools:
+    restart:
+      enabled: true
+  cache:
+    type: redis
+  mvc: # 捕获404
+    throw-exception-if-no-handler-found: true
+  thymeleaf: #关闭默认模板引擎
+    cache: false
+    enabled: false
+  aop:  #使用CGLIB来实现AOP的时候
+    proxy-target-class: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: dev
+    password: Dcyx2018#@+
+    url: jdbc:mysql://rm-bp19843j6dyk1285w0o.mysql.rds.aliyuncs.com:3306/hudong?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Hongkong&autoReconnect=true
+    type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
+    filters: stat,wall,log4j
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    connection-properties: druid.stat.merggSql=ture;druid.stat.slowSqlMillis=5000
+
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package:  com.dorcen.activity.modules.*.entity
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 3
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 1
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    #逻辑删除配置（下面3个配置）
+    logic-delete-value: 1
+    logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  configuration-properties:
+    dbType: mysql #设置全局属性用于控制数据库的类型
+
+
