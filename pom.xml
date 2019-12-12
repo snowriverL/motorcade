@@ -217,12 +217,6 @@
             </activation>
         </profile>
         <profile>
-            <id>test</id>
-            <properties>
-                <spring.active>test</spring.active>
-            </properties>
-        </profile>
-        <profile>
             <id>prod</id>
             <properties>
                 <spring.active>prod</spring.active>

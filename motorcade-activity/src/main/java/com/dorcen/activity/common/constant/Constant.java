@@ -6,4 +6,6 @@ public class Constant {
 
     public static final String MSG = "msg";
 
+    public static final Integer SUCCESS_CODE = 200;
+
 }

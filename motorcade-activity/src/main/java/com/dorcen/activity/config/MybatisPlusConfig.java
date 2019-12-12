@@ -3,6 +3,7 @@ package com.dorcen.activity.config;
 import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -33,10 +34,10 @@ public class MybatisPlusConfig {
     @Autowired(required = false)
     private DatabaseIdProvider databaseIdProvider;
 
-    @Bean
+    /*@Bean
     public MetaObjectHandler metaObjectHandler() {
         return new BaseMetaObjectHandler();
-    }
+    }*/
 
     /**
      *   mybatis-plus分页插件
@@ -76,6 +77,10 @@ public class MybatisPlusConfig {
         if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
             mybatisPlus.setMapperLocations(this.properties.resolveMapperLocations());
         }
+
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setMetaObjectHandler(new BaseMetaObjectHandler());
+        mybatisPlus.setGlobalConfig(globalConfig);
         return mybatisPlus;
     }
 

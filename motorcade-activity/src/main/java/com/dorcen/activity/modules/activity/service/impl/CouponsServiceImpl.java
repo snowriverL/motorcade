@@ -17,8 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.dorcen.activity.common.constant.Constant.CODE;
-import static com.dorcen.activity.common.constant.Constant.MSG;
+import static com.dorcen.activity.common.constant.Constant.*;
 
 @Slf4j
 @Service
@@ -43,27 +42,36 @@ public class CouponsServiceImpl implements ICouponsService {
             return ResponseUtil.buildError(ResultEnums.COUPONS_FAILED);
         }
 
-        CouponsEntity couponsEntity = new CouponsEntity();
         couponsConfig.setPhoneno(mobile);
         couponsConfig.setOpnum(1);
-
         log.info("调用第三方优惠券服务, 调用参数:{}", JSONObject.toJSONString(couponsConfig));
         HttpRequest request = HttpUtil.createPost(couponsConfig.getActivityUrl());
         request.contentType("application/json");
         request.body(JSONObject.toJSONString(couponsConfig));
         JSONObject result = JSONObject.parseObject(request.execute().body());
         log.info("调用第三方优惠券服务, 返回结果:{}", result);
-        if (ObjectUtil.notEqual(200, result.getInteger(CODE))) {
+        if (ObjectUtil.notEqual(SUCCESS_CODE, result.getInteger(CODE))) {
             return ResponseUtil.buildError(ResultEnums.COUPONS_ERROR);
         }
+
+        insertCoupons(mobile, result);
+        log.info("领取优惠券成功, 手机号:{}", mobile);
+        return ResponseUtil.buildSuccess(ResultEnums.COUPONS_SUCCESS);
+    }
+
+    /**
+     * 保存优惠券领取记录
+     * @param mobile
+     * @param result
+     */
+    private void insertCoupons(String mobile, JSONObject result) {
         // 请求成功录入数据库
+        CouponsEntity couponsEntity = new CouponsEntity();
         couponsEntity.setMobile(mobile);
         couponsEntity.setCode(result.getInteger(CODE));
         couponsEntity.setStatus(1);
         couponsEntity.setMsg(result.getString(MSG));
 
         couponsMapper.insert(couponsEntity);
-        log.info("领取优惠券成功, 手机号:{}", mobile);
-        return ResponseUtil.buildSuccess(ResultEnums.COUPONS_SUCCESS);
     }
 }
