@@ -41,5 +41,10 @@ public class CouponsConfig {
      */
     @Value("${coupons.accessSecure}")
     private String accesssecure;
+    /**
+     * 第三方接口
+     */
+    @Value("${coupons.activityUrl}")
+    private String activityUrl;
 
 }

@@ -9,7 +9,9 @@ public enum ResultEnums {
     VERIFY_CODE_ERROR("2002", "业务参数错误"),
 
     COUPONS_SUCCESS("200", "领取优惠券成功"),
-    COUPONS_FAILED("3001", "领取优惠券成功");
+    COUPONS_FAILED("3001", "您已经领取过优惠券"),
+    MOBILE_ERROR("3002", "手机号格式不正确，请重新输入"),
+    COUPONS_ERROR("3003", "领取优惠券失败，请重新领取");
 
     private String code;
     private String msg;

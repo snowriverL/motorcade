@@ -1,8 +1,10 @@
 package com.dorcen.activity.modules.activity.service.impl;
 
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dorcen.activity.common.reponse.ResponseData;
 import com.dorcen.activity.common.reponse.ResultEnums;
@@ -14,6 +16,9 @@ import com.dorcen.activity.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.dorcen.activity.common.constant.Constant.CODE;
+import static com.dorcen.activity.common.constant.Constant.MSG;
 
 @Slf4j
 @Service
@@ -27,6 +32,10 @@ public class CouponsServiceImpl implements ICouponsService {
 
     @Override
     public ResponseData getCouponsByMobile(String mobile) {
+        if (!Validator.isMobile(mobile)) {
+            return ResponseUtil.buildError(ResultEnums.MOBILE_ERROR);
+        }
+
         // 查询用户是否领取过优惠券
         Integer count = couponsMapper.selectCount(Wrappers.<CouponsEntity>lambdaQuery().eq(CouponsEntity :: getMobile, mobile));
         if (ObjectUtil.notEqual(0, count)) {
@@ -36,16 +45,22 @@ public class CouponsServiceImpl implements ICouponsService {
 
         CouponsEntity couponsEntity = new CouponsEntity();
         couponsConfig.setPhoneno(mobile);
+        couponsConfig.setOpnum(1);
 
         log.info("调用第三方优惠券服务, 调用参数:{}", JSONObject.toJSONString(couponsConfig));
-
-        log.info("调用第三方优惠券服务, 调用成功, 返回结果:{}");
-
+        HttpRequest request = HttpUtil.createPost(couponsConfig.getActivityUrl());
+        request.contentType("application/json");
+        request.body(JSONObject.toJSONString(couponsConfig));
+        JSONObject result = JSONObject.parseObject(request.execute().body());
+        log.info("调用第三方优惠券服务, 返回结果:{}", result);
+        if (ObjectUtil.notEqual(200, result.getInteger(CODE))) {
+            return ResponseUtil.buildError(ResultEnums.COUPONS_ERROR);
+        }
         // 请求成功录入数据库
         couponsEntity.setMobile(mobile);
-        couponsEntity.setCode(200);
+        couponsEntity.setCode(result.getInteger(CODE));
         couponsEntity.setStatus(1);
-        couponsEntity.setMsg("");
+        couponsEntity.setMsg(result.getString(MSG));
 
         couponsMapper.insert(couponsEntity);
         log.info("领取优惠券成功, 手机号:{}", mobile);

@@ -1,9 +1,6 @@
 package com.dorcen.activity.modules.activity.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -42,27 +39,27 @@ public class CouponsEntity {
     /**
      * 创建人
      */
-    @TableField(value = "create_by")
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
     private String createBy;
     /**
      * 创建时间
      */
-    @TableField(value = "create_date")
+    @TableField(value = "create_date", fill = FieldFill.INSERT)
     private Date createDate;
     /**
      * 修改人
      */
-    @TableField(value = "update_by")
+    @TableField(value = "update_by", fill = FieldFill.UPDATE)
     private String updateBy;
     /**
      * 修改时间
      */
-    @TableField(value = "update_date")
+    @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
     /**
      * 删除标记
      */
-    @TableField(value = "del_flag")
+    @TableField(value = "del_flag", fill = FieldFill.INSERT)
     private Integer delFlag;
 
     public Long getId() {
