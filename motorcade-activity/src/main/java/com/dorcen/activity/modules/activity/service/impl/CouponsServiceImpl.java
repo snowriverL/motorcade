@@ -2,6 +2,8 @@ package com.dorcen.activity.modules.activity.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dorcen.activity.common.reponse.ResponseData;
 import com.dorcen.activity.common.reponse.ResultEnums;
 import com.dorcen.activity.config.CouponsConfig;
@@ -26,11 +28,11 @@ public class CouponsServiceImpl implements ICouponsService {
     @Override
     public ResponseData getCouponsByMobile(String mobile) {
         // 查询用户是否领取过优惠券
-        //Integer count = couponsMapper.selectCount(Wra.<CouponsEntity>lambdaQuery().eq(CouponsEntity :: getMobile, mobile));
-//        if (ObjectUtil.notEqual(0, count)) {
-//            log.info("用户已经领取过优惠券, 手机号:{}", mobile);
-//            return ResponseUtil.buildError(ResultEnums.COUPONS_FAILED);
-//        }
+        Integer count = couponsMapper.selectCount(Wrappers.<CouponsEntity>lambdaQuery().eq(CouponsEntity :: getMobile, mobile));
+        if (ObjectUtil.notEqual(0, count)) {
+            log.info("用户已经领取过优惠券, 手机号:{}", mobile);
+            return ResponseUtil.buildError(ResultEnums.COUPONS_FAILED);
+        }
 
         CouponsEntity couponsEntity = new CouponsEntity();
         couponsConfig.setPhoneno(mobile);

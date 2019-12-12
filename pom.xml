@@ -29,7 +29,7 @@
         <caffeine.version>2.6.2</caffeine.version>
         <jetcache.version>2.5.7</jetcache.version>
         <mybatisstarter.version>1.1.1</mybatisstarter.version>
-        <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <mybatis-plus.version>3.3.0</mybatis-plus.version>
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
         <druid.version>1.1.10</druid.version>
         <lombok.version>1.18.8</lombok.version>
@@ -155,6 +155,22 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

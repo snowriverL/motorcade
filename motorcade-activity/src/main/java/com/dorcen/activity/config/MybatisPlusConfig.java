@@ -1,13 +1,14 @@
 package com.dorcen.activity.config;
 
-import com.baomidou.mybatisplus.MybatisConfiguration;
-import com.baomidou.mybatisplus.MybatisXMLLanguageDriver;
-import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
+import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
+import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
-import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +30,6 @@ public class MybatisPlusConfig {
 
     @Autowired
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
-
-    @Autowired(required = false)
-    private Interceptor[] interceptors;
 
     @Autowired(required = false)
     private DatabaseIdProvider databaseIdProvider;
@@ -58,10 +56,6 @@ public class MybatisPlusConfig {
         mybatisPlus.setVfs(SpringBootVFS.class);
         if (StringUtils.hasText(this.properties.getConfigLocation())) {
             mybatisPlus.setConfigLocation(this.resourceLoader.getResource(this.properties.getConfigLocation()));
-        }
-        mybatisPlus.setConfiguration(properties.getConfiguration());
-        if (!ObjectUtils.isEmpty(this.interceptors)) {
-            mybatisPlus.setPlugins(this.interceptors);
         }
         MybatisConfiguration mc = new MybatisConfiguration();
         mc.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
