@@ -1,10 +1,12 @@
 server:
   port: 8085
+
+spring:
+  profiles:
+    active: dev
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-  profiles:
-    active: dev
   session:
     store-type: none
   devtools:
@@ -20,7 +22,6 @@ server:
   aop:  #使用CGLIB来实现AOP的时候
     proxy-target-class: true
 
-spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: dev
