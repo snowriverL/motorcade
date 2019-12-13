@@ -1,4 +1,3 @@
-
 package com.dorcen.activity.utils;
 
 import com.dorcen.activity.common.reponse.ResponseData;
