@@ -30,7 +30,7 @@
         <jetcache.version>2.5.7</jetcache.version>
         <mybatisstarter.version>1.1.1</mybatisstarter.version>
         <mybatis-plus.version>3.3.0</mybatis-plus.version>
-        <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <druid.version>1.1.10</druid.version>
         <lombok.version>1.18.8</lombok.version>
         <mybatis.version>1.3.2</mybatis.version>
